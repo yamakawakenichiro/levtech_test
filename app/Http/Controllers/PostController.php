@@ -22,4 +22,15 @@ class PostController extends Controller
         // dd($test); //確認用に追加
         return view('posts.index')->with(['posts'=>$post->getPaginateByLimit()]);
     }
+    /**
+     * 特定IDのpostを表示する
+     *
+     * @params Object Post // 引数の$postはid=1のPostインスタンス
+     * @return Reposnse post view
+     */
+    public function show(Post $post)
+    {
+    return view('posts.show')->with(['post' => $post]);
+    //'post'はbladeファイルで使う変数。中身は$postはid=1のPostインスタンス。
+    }
 }
