@@ -6,21 +6,22 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 
 use App\Http\Requests\PostRequest; // useする
+use App\Models\Category;
 
 class PostController extends Controller
 {
-    
+
     /**
      * Post一覧を表示する
      * 
      * @param Post Postモデル
      * @return array Postモデルリスト
      */
-    public function index(Post $post)//インポートしたPostをインスタンス化して$postとして使用。
+    public function index(Post $post) //インポートしたPostをインスタンス化して$postとして使用。
     {
         // $test = $post->orderBy('updated_at', 'DESC')->limit(2)->toSql(); //確認用に追加
         // dd($test); //確認用に追加
-        return view('posts.index')->with(['posts'=>$post->getPaginateByLimit()]);
+        return view('posts.index')->with(['posts' => $post->getPaginateByLimit()]);
     }
     /**
      * 特定IDのpostを表示する
@@ -30,12 +31,12 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-    return view('posts.show')->with(['post' => $post]);
-    //'post'はbladeファイルで使う変数。中身は$postはid=1のPostインスタンス。
+        return view('posts.show')->with(['post' => $post]);
+        //'post'はbladeファイルで使う変数。中身は$postはid=1のPostインスタンス。
     }
-    public function create()
+    public function create(Category $category)
     {
-        return view('posts.create');
+        return view('posts.create')->with(['categories' => $category->get()]);
     }
     public function store(Post $post, PostRequest $request)
     {
