@@ -1,7 +1,13 @@
 <?php
+
+namespace App\Http\Controllers;
+
 use App\Models\Category;
 
-public function create(Category $category)
+class CategoryController extends Controller
 {
-return view('posts.create')->with(['categories' => $category->get()]);
+    public function index(Category $category)
+    {
+        return view('categories.index')->with(['posts' => $category->getByCategory()]);
+    }
 }
