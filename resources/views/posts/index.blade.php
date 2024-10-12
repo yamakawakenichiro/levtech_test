@@ -31,5 +31,6 @@
                 }
             }
         </script>
+        <p>ログインユーザー：{{ Auth::user()->name }}</p>
     </body>
 </x-app-layout>
