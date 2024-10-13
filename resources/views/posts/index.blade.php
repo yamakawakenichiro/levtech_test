@@ -14,7 +14,7 @@
                 <form action="/posts/{{ $post->id }}" id="form_{{ $post->id }}" method="post">
                     @csrf
                     @method('DELETE')
-                    <button type="button" onclick="deletePost({{ $post->id }})">delete</button>
+                    <button type="button" onclick="deletePost('{{ $post->id }}')">delete</button>
                 </form>
             </div>
             @endforeach
@@ -32,5 +32,14 @@
             }
         </script>
         <p>ログインユーザー：{{ Auth::user()->name }}</p>
+        <div>
+            @foreach($questions as $question)
+            <div>
+                <a href="https://teratail.com/questions/{{ $question['id'] }}">
+                    {{ $question['title'] }}
+                </a>
+            </div>
+            @endforeach
+        </div>
     </body>
 </x-app-layout>
