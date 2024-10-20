@@ -20,6 +20,10 @@ class PostController extends Controller
     public function index(Post $post)
     {
         // クライアントインスタンス生成
+        /*
+        verify:検証
+        ローカル環境 (app.envがlocalの場合) では、SSL証明書の検証を無効にします。
+        */
         $client = new \GuzzleHttp\Client(
             ['verify' => config('app.env') !== 'local'],
         );
@@ -29,6 +33,10 @@ class PostController extends Controller
 
         // リクエスト送信と返却データの取得
         // Bearerトークンにアクセストークンを指定して認証を行う
+        /*
+        このリクエストは、Teratail APIに対して認証付きのGETリクエストを送信するために使用されます。
+        [] は、PHPの配列（Array）キー: Bearer 値: config('services.teratail.token') の戻り値
+        */
         $response = $client->request(
             'GET',
             $url,
@@ -42,6 +50,7 @@ class PostController extends Controller
         // index bladeに取得したデータを渡す
         return view('posts.index')->with([
             'posts' => $post->getPaginateByLimit(),
+            //このコードは、$questions配列から'questions'キーに対応する値を取り出し、ビューで使う'questions'に再度割り当てています。
             'questions' => $questions['questions'],
         ]);
     }
@@ -62,6 +71,13 @@ class PostController extends Controller
     }
     public function store(Post $post, PostRequest $request)
     {
+        /*
+        fill：埋める
+        fill($input)はリクエストデータ（ユーザーがサーバーに送信したデータ）をモデルに上書きする
+        save() は、モデルに設定されたデータをデータベースに保存します。
+        モデルデータ：メモリ上に存在し、プログラムの実行中のみ有効です。
+        データベースのデータ：ディスク上に永続的に保存され、プログラムの実行後も残ります。
+        */
         $input = $request['post'];
         $post->fill($input)->save();
         return redirect('/posts/' . $post->id);
